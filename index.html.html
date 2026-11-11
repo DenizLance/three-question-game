@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Three Secrets - Personality Test</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .question-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            transition: color 0.3s ease;
+        }
+
+        .sub-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 90px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #475569;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .revealed-title {
+            color: #f472b6 !important;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .answer-summary {
+            background-color: rgba(15, 23, 42, 0.6);
+            border-left: 3px solid var(--accent-color);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: slideDown 0.4s ease;
+        }
+
+        /* E-Book Promo Box Styling */
+        .ebook-promo {
+            display: none;
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(244, 114, 182, 0.15));
+            border: 1px solid #f472b6;
+            border-radius: 12px;
+            text-align: center;
+            animation: slideDown 0.6s ease;
+        }
+
+        .ebook-badge {
+            display: inline-block;
+            background-color: rgba(244, 114, 182, 0.2);
+            color: #f472b6;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+        }
+
+        .ebook-promo h3 {
+            font-size: 1.35rem;
+            color: #f8fafc;
+            margin-bottom: 0.75rem;
+        }
+
+        .ebook-promo p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .ebook-title-highlight {
+            color: #f472b6;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .ebook-link {
+            display: inline-block;
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            color: white;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.35);
+        }
+
+        .ebook-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.55);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert {
+            display: none;
+            background-color: #ef4444;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header id="app-header">
+            <h1>The Three Secrets</h1>
+            <p>Answer honestly and provide three deep, descriptive reasons for each.</p>
+        </header>
+
+        <div id="error-alert" class="alert">Please fill in all answers before revealing!</div>
+
+        <form id="quiz-form" onsubmit="return false;">
+            <!-- Question 1 -->
+            <div class="question-group">
+                <label id="q1-label" for="q1">1. What is your favorite pet or animal?</label>
+                <span id="q1-sub" class="sub-label">Describe your favorite animal and give 3 deep, distinct reasons why you love it.</span>
+                <textarea id="q1" placeholder="Example: I love wolves because they represent wild freedom, they protect their pack with fierce loyalty, and they communicate through beautiful, haunting howls..."></textarea>
+                <div id="q1-result" class="answer-summary" style="display: none;"></div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-group">
+                <label id="q2-label" for="q2">2. What is your favorite color?</label>
+                <span id="q2-sub" class="sub-label">Describe your favorite color and list 3 deep feelings, memories, or concepts it represents to you.</span>
+                <textarea id="q2" placeholder="Example: Deep ocean blue because it feels incredibly calm and stabilizing, it holds a sense of endless mystery, and it reminds me of quiet nights looking at the horizon..."></textarea>
+                <div id="q2-result" class="answer-summary" style="display: none;"></div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-group">
+                <label id="q3-label" for="q3">3. What is your favorite body of water?</label>
+                <span id="q3-sub" class="sub-label">Choose a body of water (ocean, river, lake, puddle, waterfall) and write 3 deep, descriptive reasons you are drawn to it.</span>
+                <textarea id="q3" placeholder="Example: A rushing mountain river because it represents constant, unyielding movement, its clarity shows absolute truth, and its sound can drown out all of my chaotic thoughts..."></textarea>
+                <div id="q3-result" class="answer-summary" style="display: none;"></div>
+            </div>
+
+            <button type="button" id="reveal-btn" onclick="revealSecrets()">Reveal the Truth</button>
+        </form>
+
+        <!-- E-Book Call to Action Section (Hidden until Reveal) -->
+        <div id="ebook-section" class="ebook-promo">
+            <span class="ebook-badge">Go Deeper</span>
+            <h3>Want to Read People Like an Open Book?</h3>
+            <p>
+                What you just experienced is only the surface of psychological projection. If you want to dive deeper into your own inner personality—or discover <strong>how someone secretly feels about you</strong> without them saying a word—check out our exclusive guide:<br><br>
+                <span class="ebook-title-highlight">"The Subconscious Mirror: Decoding Yourself & How Others Secretly Feel About You"</span>
+            </p>
+            <!-- CHANGE "ebook-landing-page.html" BELOW TO YOUR ACTUAL PAGE URL -->
+            <a href="ebook-landing-page.html" class="ebook-link">Get the E-Book Now &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+        function revealSecrets() {
+            const q1Input = document.getElementById('q1');
+            const q2Input = document.getElementById('q2');
+            const q3Input = document.getElementById('q3');
+            const alertBox = document.getElementById('error-alert');
+
+            // Validate that all fields have some content
+            if (!q1Input.value.trim() || !q2Input.value.trim() || !q3Input.value.trim()) {
+                alertBox.style.display = 'block';
+                alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            // Hide alert if visible
+            alertBox.style.display = 'none';
+
+            // Define the real, hidden questions
+            const realQ1 = "1. What is your ideal partner?";
+            const realQ2 = "2. What is your true personality?";
+            const realQ3 = "3. What is your relationship with your sexuality?";
+
+            // Update Header to reflect the reveal
+            document.getElementById('app-header').innerHTML = `
+                <h1 style="background: linear-gradient(to right, #f472b6, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">The Truth Revealed</h1>
+                <p>The original questions were a psychological projection. Here is what your deep answers actually reveal about you:</p>
+            `;
+
+            // Transform Question 1
+            const label1 = document.getElementById('q1-label');
+            label1.textContent = realQ1;
+            label1.classList.add('revealed-title');
+            document.getElementById('q1-sub').textContent = "Your description of your favorite animal actually represents the traits you subconsciously look for in an ideal partner.";
+            showFinalAnswer('q1', 'q1-result');
+
+            // Transform Question 2
+            const label2 = document.getElementById('q2-label');
+            label2.textContent = realQ2;
+            label2.classList.add('revealed-title');
+            document.getElementById('q2-sub').textContent = "Your description of your favorite color represents how you view your own inner personality and aura.";
+            showFinalAnswer('q2', 'q2-result');
+
+            // Transform Question 3
+            const label3 = document.getElementById('q3-label');
+            label3.textContent = realQ3;
+            label3.classList.add('revealed-title');
+            document.getElementById('q3-sub').textContent = "Your feelings toward your favorite body of water represent your subconscious attitude, desire, and relationship with your sexuality.";
+            showFinalAnswer('q3', 'q3-result');
+
+            // Hide the original Reveal button so the E-book button becomes the main focus
+            const revealBtn = document.getElementById('reveal-btn');
+            revealBtn.style.display = 'none';
+
+            // Display the E-Book Promo Box and smoothly scroll so they see their results + the promo
+            const ebookSection = document.getElementById('ebook-section');
+            ebookSection.style.display = 'block';
+        }
+
+        function showFinalAnswer(inputId, resultId) {
+            const inputVal = document.getElementById(inputId).value.trim();
+            const resultDiv = document.getElementById(resultId);
+            const textInput = document.getElementById(inputId);
+            
+            // Format the user's text and display it in a clean card block
+            resultDiv.innerHTML = `<strong>Your Deep Reasons:</strong><br>"${inputVal.replace(/\n/g, '<br>')}"`;
+            resultDiv.style.display = 'block';
+            
+            // Hide the editable text areas to present the results cleanly
+            textInput.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
